@@ -18,6 +18,10 @@ services:
   node_backend:
     container_name: node_with_pa_msql
     build: ./backend_app
+    environment:
+      # MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      WAIT_HOSTS: mysql:3306
     # volumes: 
     #   - ./backend_app:/usr/src/app
     links:
@@ -28,7 +32,7 @@ services:
     ports:
       - 3004:4006
   mysql:
-    image: mysql:latest
+    image: mysql:5.6
     container_name: node_mysql
     # volumes:
     #   - backend_app/db_sample:/docker-entrypoint-initdb.d
