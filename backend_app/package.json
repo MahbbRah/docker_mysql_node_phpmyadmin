@@ -17,7 +17,6 @@
         "nodejs-docker",
         "microservice"
     ],
-    "author": "Varun Kumar <varunon9@gmail.com>",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/varunon9/getting-started-docker-mysql-nodejs/issues"

@@ -1,6 +1,32 @@
 version : '3'
 
 services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: node_pa
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8183:80
+  node_backend:
+    container_name: node_with_pa_msql
+    build: ./backend_app
+    # volumes: 
+    #   - ./backend_app:/usr/src/app
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    restart: on-failure
+    ports:
+      - 3004:4006
   mysql:
     image: mysql:latest
     container_name: node_mysql
@@ -11,31 +37,3 @@ services:
       MYSQL_PASSWORD: user
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: default_schema
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: node_pa
-    links:
-      - mysql
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      PMA_ARBITRARY: 1
-    restart: always
-    ports:
-      - 8183:80
-
-  node_backend:
-    image: node:latest
-    container_name: node_with_pa_msql
-    build:
-      context: backend_app/
-    volumes: 
-      - ./backend_app/:/usr/src/app
-    links:
-      - mysql
-    depends_on:
-      - mysql
-    restart: always
-    ports:
-      - 5000:4006
