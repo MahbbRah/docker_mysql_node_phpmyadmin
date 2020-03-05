@@ -31,7 +31,7 @@ services:
     build:
       context: backend_app/
     volumes: 
-      - backend_app:/usr/src/app
+      - ./backend_app/:/usr/src/app
     links:
       - mysql
     depends_on:
