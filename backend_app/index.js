@@ -9,31 +9,29 @@ app.use(bodyParser.json({
 })); // support json encoded bodies
 
 // environment variables
-const PORT = process.env.MYSQL_PORT || 4006;
-const HOST = process.env.MYSQL_HOST || 'mysql';
+const APP_PORT = process.env.PORT || 4006;
+const DB_PORT = process.env.MYSQL_PORT || 3306;
+const DB_HOST = process.env.MYSQL_HOST || 'mysql';
 
 // // mysql credentials
 const connection = mysql.createConnection({
-    host: HOST,
-    port: PORT,
+    host: DB_HOST,
+    port: DB_PORT,
     user: process.env.MYSQL_USER || 'root',
     password: process.env.MYSQL_PASSWORD || 'root',
-    connectTimeout: 300000
 });
 
 connection.connect((err) => {
     if (err) {
         console.error('error connecting mysql: ', err);
     } else {
-        console.log('mysql connection successful-------------');
-        app.listen(4006, (err) => {
+        app.listen(APP_PORT, (err) => {
             if (err) {
                 console.error('Error starting  server', err);
             } else {
-                console.log('server listening at portss ' + PORT);
+                console.log('server listening at portss ' + APP_PORT);
             }
         });
-
     }
 });
 
