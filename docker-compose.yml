@@ -25,6 +25,8 @@ services:
       - node_backend
     depends_on:
       - node_backend
+    environment:
+      sharedHost: 192.168.0.101
     restart: on-failure
     ports:
       - 3000:3000
