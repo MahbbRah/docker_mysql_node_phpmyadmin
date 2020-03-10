@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js"
+        "start": "nodemon"
     },
     "repository": {
         "type": "git",
@@ -23,8 +23,21 @@
     },
     "homepage": "https://github.com/varunon9/getting-started-docker-mysql-nodejs#readme",
     "dependencies": {
+        "axios": "^0.18.1",
         "body-parser": "^1.18.3",
+        "cors": "^2.8.4",
+        "dotenv": "^5.0.1",
         "express": "^4.16.3",
-        "mysql": "^2.15.0"
+        "express-async-handler": "^1.1.4",
+        "facebook-chat-api": "^1.7.0",
+        "http": "0.0.0",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.22.2",
+        "multer": "^1.4.1",
+        "mysql": "^2.16.0",
+        "randomstring": "^1.1.5",
+        "request": "^2.88.0",
+        "shortid": "^2.2.13",
+        "socket.io": "^2.3.0"
     }
 }

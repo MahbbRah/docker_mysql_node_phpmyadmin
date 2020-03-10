@@ -1,39 +1,34 @@
 
 const app = require('express')();
-const mysql = require('mysql');
-
+const cors = require('cors')
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+// const router = express.Router();
+const routes = require('./api/index');
 const bodyParser = require('body-parser');
 
+//attach io to req.io so it accessible via all routes;
+app.use(function (req, res, next) {
+    req.io = io;
+    next();
+})
+
+app.use(bodyParser.urlencoded({
+    extended: true,
+    limit: '100mb'
+}));
 app.use(bodyParser.json({
     limit: '100mb'
-})); // support json encoded bodies
+}));
+
+//enable all request. from third party sites, apps, and so on.
+app.use(cors());
+
+app.use('/api', routes);
 
 // environment variables
 const APP_PORT = process.env.PORT || 4006;
-const DB_PORT = process.env.MYSQL_PORT || 3306;
-const DB_HOST = process.env.MYSQL_HOST || 'mysql';
 
-// // mysql credentials
-const connection = mysql.createConnection({
-    host: DB_HOST,
-    port: DB_PORT,
-    user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || 'root',
-});
-
-connection.connect((err) => {
-    if (err) {
-        console.error('error connecting mysql: ', err);
-    } else {
-        app.listen(APP_PORT, (err) => {
-            if (err) {
-                console.error('Error starting  server', err);
-            } else {
-                console.log('server listening at portss ' + APP_PORT);
-            }
-        });
-    }
-});
 
 // home page
 app.get('/', (req, res) => {
@@ -41,6 +36,14 @@ app.get('/', (req, res) => {
         success: true,
         message: 'Hello world'
     });
+});
+
+http.listen(APP_PORT, (err) => {
+    if (err) {
+        console.error('Error starting  server', err);
+    } else {
+        console.log('server listening at port ' + APP_PORT);
+    }
 });
 
 // // insert a student into database
@@ -63,23 +66,3 @@ app.get('/', (req, res) => {
 //         }
 //     });
 // });
-
-// // fetch all students
-// app.post('/get-students', (req, res) => {
-//     const query = 'SELECT * FROM students';
-//     connection.query(query, (err, results, fields) => {
-//         if (err) {
-//             console.error(err);
-//             res.json({
-//                 success: false,
-//                 message: 'Error occured'
-//             });
-//         } else {
-//             res.json({
-//                 success: true,
-//                 result: results
-//             });
-//         }
-//     });
-// });
-
